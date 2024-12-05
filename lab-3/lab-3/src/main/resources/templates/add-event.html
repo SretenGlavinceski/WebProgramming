@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            display: flex;
+            flex-direction: column;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input, select, button {
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        input:focus, select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button[type="submit"] {
+            font-weight: bold;
+        }
+
+        .form-header {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <h1 class="form-header" th:text="${event != null} ? 'Edit Event' : 'Add New Event'"></h1>
+    <form th:action="${event != null} ? '/addOrUpdate/edit/' + ${event.getId()} : '/addOrUpdate/add' " th:method="POST">
+        <label for="eventName">Event Name
+            <input type="text"
+                   id="eventName"
+                   name="eventName"
+                   th:value="${event != null ? event.getName() : ''}"
+                   required>
+        </label>
+
+        <label for="eventDescription">Event Description
+            <input type="text"
+                   id="eventDescription"
+                   name="eventDescription"
+                   th:value="${event != null ? event.getDescription() : ''}"
+                   required>
+        </label>
+
+        <label for="popularityScore">Event Popularity Score
+            <input type="number"
+                   id="popularityScore"
+                   name="popularityScore"
+                   min="1"
+                   max="10"
+                   step="0.1"
+                   th:value="${event != null ? event.getPopularityScore() : ''}"
+                   required>
+        </label>
+
+        <label for="numOfTickets">Number of Tickets
+            <input type="number"
+                   id="numOfTickets"
+                   name="numOfTickets"
+                   min="1"
+                   step="1"
+                   th:value="${event != null ? event.getNumOfCardsLeft() : ''}"
+                   required>
+        </label>
+
+        <label for="eventCategory">Event Category
+            <select name="eventCategory" id="eventCategory" required>
+                <option
+                        th:each="category : ${categories}"
+                        th:value="${category.getId()}"
+                        th:text="${category.getTypeCategory()}"
+                        th:selected="${event != null && category.getId() == event.getCategory().getId()}"
+                >
+            </select>
+        </label>
+
+        <label for="eventLocation">Event Location
+            <select name="eventLocation" id="eventLocation" required>
+                <option
+                        th:each="location : ${locations}"
+                        th:value="${location.getId()}"
+                        th:text="${location.getName()}"
+                        th:selected="${event != null && location.getId() == event.getLocation().getId()}"
+                >
+            </select>
+        </label>
+
+        <button type="submit" th:text="${event != null} ? 'Save Changes' : 'Add Event'"></button>
+    </form>
+</div>
+
+</body>
+</html>

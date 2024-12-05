@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booked Events</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        header h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        table td b {
+            color: #555;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+
+        .booking-container {
+            margin-bottom: 20px;
+        }
+
+        .booking-container:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <section>
+        <header>
+            <h1>Event Booking - Confirmation</h1>
+        </header>
+
+        <div class="booking-container" th:each="bookedEvent : ${bookedEvents}">
+            <table>
+                <tr>
+                    <th colspan="2">Booking Status</th>
+                </tr>
+                <tr>
+                    <td><b>Attendee Name:</b></td>
+                    <td><th:block th:text="${bookedEvent.getAttendeeName()}"></th:block></td>
+                </tr>
+                <tr>
+                    <td><b>Client IP Address:</b></td>
+                    <td><th:block th:text="${bookedEvent.getAttendeeAddress()}"></th:block></td>
+                </tr>
+                <tr>
+                    <td><b>Booking for Event:</b></td>
+                    <td><th:block th:text="${bookedEvent.getEventName()}"></th:block></td>
+                </tr>
+                <tr>
+                    <td><b>Number of Tickets:</b></td>
+                    <td><th:block th:text="${bookedEvent.getNumberOfTickets()}"></th:block></td>
+                </tr>
+            </table>
+        </div>
+
+        <a th:href="@{/bookedEvents/back-page}">Go Back</a>
+    </section>
+</div>
+
+</body>
+</html>
