@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Event Booking page - Welcome and choose an Event</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+
+        table {
+            width:100%;
+        }
+        table, td, th {
+            border: 1px solid black;
+            padding: 3px 2px;
+        }
+
+        #filter-form label {
+            width: 300px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        input[type='submit'] {
+            padding: 3px 5px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Event Booking App</h1>
+</header>
+<main>
+
+    <!-- Display radio buttons for each event,
+            the value should be the event name
+            and the displayed text should be Name: <event_name>, Description: <event_description>, Rating: <popularity_score> -->
+    <form th:method="POST" th:action="@{/eventBooking}">
+
+        <h3>Choose an event:</h3>
+        <br>
+
+        <div th:each="event : ${events}">
+            <label th:for="${event.name}">
+                <input type="radio" name="selectedEvent" th:value="${event.name}" th:id="${event.name}">
+                Name: <span th:text="${event.name}"></span> ,
+                Description: <span th:text="${event.description}"></span> ,
+                Rating: <span th:text="${event.popularityScore}"></span>
+                Category: <span th:text="${event.getCategory().getTypeCategory()}"></span>
+            </label>
+            <br>
+        </div>
+
+        <br>
+
+        <h3>Choose number of tickets:</h3>
+        <input type="number" name="numTickets" min="1" max="10" value="1"><br/>
+        <br/>
+        <h3>Your name is:</h3>
+        <input type="text" name="attendeeName"><br/>
+        <br/>
+        <input type="submit" value="Submit">
+
+        <h3 th:if="${!isValid}" class="error">Please fill out the whole form!</h3>
+
+    </form>
+
+    <br>
+    <hr>
+    <br>
+
+    <form th:method="GET" th:action="@{/event}" id="filter-form">
+        <h3>Filter Events by Name and Rating</h3>
+        <br>
+
+        <label for="filterName">Name Contains:
+            <input type="text" name="filterName" id="filterName">
+        </label>
+        <br>
+        <label for="filterRating">Rating Bigger than:
+            <input type="number" min="1" max="10" name="filterRating" id="filterRating">
+        </label>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <br>
+    <br>
+
+    <table th:if="${!filteredEvents.isEmpty()}">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Popularity Score</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="event : ${filteredEvents}">
+            <td><th:block th:text="${event.getName()}"></th:block></td>
+            <td><th:block th:text="${event.getDescription()}"></th:block></td>
+            <td><th:block th:text="${event.getPopularityScore()}"></th:block></td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+
+
+<!--    ad-->
+
+    <form th:method="GET" th:action="@{/event}" id="filter-category">
+        <h3>Filter Events by Category</h3>
+        <br>
+
+        <select name="selectedCategory" id="selectedCategory">
+
+            <div th:each="category : ${categories}">
+                <option th:value="${category.getTypeCategory()}">
+                    <th:block th:text="${category.getTypeCategory()}"></th:block>
+                </option>
+            </div>
+        </select>
+
+        <br>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <br>
+    <br>
+
+    <table th:if="${!eventsByCategory.isEmpty()}">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Popularity Score</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="event : ${eventsByCategory}">
+            <td><th:block th:text="${event.getName()}"></th:block></td>
+            <td><th:block th:text="${event.getDescription()}"></th:block></td>
+            <td><th:block th:text="${event.getPopularityScore()}"></th:block></td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+</main>
+</body>
+</html>

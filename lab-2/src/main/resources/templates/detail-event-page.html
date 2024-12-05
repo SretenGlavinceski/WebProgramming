@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Event</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Main container */
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 1.8em;
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .event-detail {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* List of attendees */
+        .attendees {
+            margin-top: 20px;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .attendees h2 {
+            font-size: 1.2em;
+            color: #007bff;
+            margin-bottom: 8px;
+        }
+
+        .attendee {
+            font-size: 1em;
+            padding: 5px 0;
+            color: #555;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .attendee:last-child {
+            border-bottom: none;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>About Event</h1>
+
+    <div class="event-detail">
+        <p><span class="label">Event ID:</span> <span th:text="${event.getId()}"></span></p>
+        <p><span class="label">Name:</span> <span th:text="${event.getName()}"></span></p>
+        <p><span class="label">Description:</span> <span th:text="${event.getDescription()}"></span></p>
+        <p><span class="label">Category:</span> <span th:text="${event.getCategory().getTypeCategory()}"></span></p>
+        <p><span class="label">Location:</span> <span th:text="${event.getLocation().getName()}"></span></p>
+        <p><span class="label">Popularity Score:</span> <span th:text="${event.getPopularityScore()}"></span></p>
+    </div>
+
+    <div class="attendees">
+        <h2>People Attending:</h2>
+        <div th:each="person : ${peopleAttendingEvent}">
+            <p class="attendee" >
+                <strong>Attendee Name: </strong><th:block th:text="${person.getAttendeeName()}"></th:block> |
+                <strong>No. Tickets: </strong><th:block th:text="${person.getNumberOfTickets()}"></th:block> |
+                <strong>Address: </strong><th:block th:text="${person.getAttendeeAddress()}"></th:block>
+            </p>
+        </div>
+    </div>
+
+    <a href="/events">Go Back</a>
+</div>
+
+</body>
+</html>
