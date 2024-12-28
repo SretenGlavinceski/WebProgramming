@@ -1,0 +1,32 @@
+<div class="container my-5 p-4 bg-white rounded shadow">
+    <section>
+
+        <!-- Booked Events -->
+        <div th:each="bookedEvent : ${bookedEvents}" class="mt-4">
+            <table class="table table-bordered bg-light rounded">
+                <thead class="bg-primary text-white">
+                <tr>
+                    <th colspan="2" class="text-center">Booking Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="fw-bold text-secondary">Attendee Name:</td>
+                    <td><th:block th:text="${bookedEvent.getUser().getUsername()}"></th:block></td>
+                </tr>
+                <tr>
+                    <td class="fw-bold text-secondary">Booking for Event:</td>
+                    <td><th:block th:text="${bookedEvent.getEventName()}"></th:block></td>
+                </tr>
+                <tr>
+                    <td class="fw-bold text-secondary">Number of Tickets:</td>
+                    <td><th:block th:text="${bookedEvent.getNumberOfTickets()}"></th:block></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Go Back Button -->
+        <a th:href="@{/bookedEvents/back-page}" class="btn btn-primary mt-4">Go Back</a>
+    </section>
+</div>

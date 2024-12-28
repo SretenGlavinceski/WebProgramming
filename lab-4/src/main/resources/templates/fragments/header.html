@@ -1,0 +1,23 @@
+<!-- Header -->
+<header class="bg-dark text-white py-3" >
+    <div class="container d-flex justify-content-between align-items-center">
+        <h1 class="h3 mb-0">Awesome Events 2024</h1>
+        <nav>
+            <a href="/events" class="text-white text-decoration-none mx-2" sec:authorize="isAuthenticated()">Home</a>
+            <a href="/bookedEvents/view-all" class="text-white text-decoration-none mx-2"
+               sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')">Booked Events</a>
+            <a href="/bookedEvents/view-user-bookings" class="text-white text-decoration-none mx-2"
+               sec:authorize="isAuthenticated() && hasRole('ROLE_USER')">Your Booked Events</a>
+        </nav>
+        <div>
+            <span sec:authorize="isAuthenticated()">
+                <th:block th:if="${#authentication.getName() != null}" th:text="${#authentication.getName()}"></th:block>
+            </span>
+        </div>
+        <div>
+            <a sec:authorize="!isAuthenticated()" href="/login" class="btn btn-outline-light btn-sm mx-1">Sign In</a>
+            <a sec:authorize="!isAuthenticated()" href="/register" class="btn btn-outline-light btn-sm mx-1">Register</a>
+            <a sec:authorize="isAuthenticated()" href="/logout" class="btn btn-outline-danger btn-sm mx-1">Logout</a>
+        </div>
+    </div>
+</header>

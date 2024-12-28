@@ -1,0 +1,96 @@
+
+
+<div class="container my-5 p-4 bg-white rounded shadow-sm">
+    <h2 class="text-danger text-center mb-4" th:if="${error != null && !error.isEmpty()}" th:text="${error}"></h2>
+
+    <form th:action="@{/events/confirmEvent}" th:method="POST" sec:authorize="${hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')}">
+        <h4>Choose an event:</h4>
+        <div th:each="event : ${allEvents}" class="mb-3 p-3 border rounded">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="selectedEvent" th:value="${event.getId()}"
+                       th:id="${event.getName()}" required>
+                <label class="form-check-label" th:for="${event.getName()}">
+                    <strong>Name:</strong> <span th:text="${event.getName()}"></span> |
+                    <strong>Rating:</strong> <span th:text="${event.getPopularityScore()}"></span> |
+                    <strong>Location:</strong> <span th:text="${event.getLocation().getName()}"></span> |
+                    <strong>Tickets left:</strong> <span th:text="${event.getNumOfCardsLeft()}"></span>
+                </label>
+            </div>
+            <div class="mt-2">
+                <a th:href="@{'/events/detail-page/' + ${event.getId()}}" class="btn btn-primary btn-sm">View
+                    Details</a>
+                <th:block sec:authorize="${hasRole('ROLE_ADMIN')}">
+                    <a th:href="@{'/events/delete/' + ${event.getId()}}" class="btn btn-danger btn-sm">Delete</a>
+                </th:block>
+                <th:block sec:authorize="${hasRole('ROLE_ADMIN')}">
+                    <a th:href="@{'/events/edit-form/' + ${event.getId()}}" class="btn btn-warning btn-sm">Edit</a>
+                </th:block>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <h4>Choose number of tickets:</h4>
+            <input type="number" class="form-control" name="numTickets" min="1" value="1" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Submit</button>
+        <a th:href="@{'/events/add-form'}" class="btn btn-info ms-2" sec:authorize="hasRole('ADMIN')" >Add Event</a>
+    </form>
+
+    <div sec:authorize="${isAnonymous()}" class="alert alert-warning text-center my-4 p-3 rounded">
+        <p class="mb-0">Please sign in or register to confirm an event.</p>
+    </div>
+
+
+    <div sec:authorize="${isAnonymous()}" class="border rounded p-3 bg-light my-4">
+        <h3>All Events for 2024.</h3>
+        <h4>Be part of the fun.</h4>
+        <br>
+        <ul class="list-unstyled">
+            <li class="mb-2" th:each="event : ${allEvents}">
+                <strong>Name:</strong> <span th:text="${event.getName()}"></span> |
+                <strong>Rating:</strong> <span th:text="${event.getPopularityScore()}"></span> |
+                <strong>Description:</strong> <span th:text="${event.getDescription()}"></span> |
+                <strong>Location:</strong> <span th:text="${event.getLocation().getName()}"></span> |
+                <strong>Tickets left:</strong> <span th:text="${event.getNumOfCardsLeft()}"></span>
+            </li>
+        </ul>
+    </div>
+
+
+    <br>
+    <hr class="my-4">
+    <br>
+
+    <form th:action="@{/events/searchEventsByLocation}" th:method="GET">
+        <div class="mb-3">
+            <label for="searchEventsByLocation" class="form-label">Select Events by Location:</label>
+            <select name="searchEventsByLocation" id="searchEventsByLocation" class="form-select" required>
+                <option th:each="location : ${locations}" th:value="${location.getId()}"
+                        th:text="${location.getName()}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <table class="table table-bordered table-striped table-hover mt-4">
+        <thead class="table-light">
+        <tr>
+            <th>Name</th>
+            <th>Popularity Score</th>
+            <th>Location</th>
+            <th>Category</th>
+            <th>Tickets Left</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="eventLocation : ${searchedEventsByLocation}">
+            <td th:text="${eventLocation.getName()}"></td>
+            <td th:text="${eventLocation.getPopularityScore()}"></td>
+            <td th:text="${eventLocation.getLocation().getName()}"></td>
+            <td th:text="${eventLocation.getCategory().getTypeCategory()}"></td>
+            <td th:text="${eventLocation.getNumOfCardsLeft()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

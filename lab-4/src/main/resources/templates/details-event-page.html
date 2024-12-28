@@ -1,0 +1,45 @@
+<div class="container my-5 p-4 bg-white rounded shadow">
+    <h1 class="text-center text-primary">About Event</h1>
+
+    <!-- Event Details -->
+    <div class="border rounded p-3 bg-light mt-4">
+        <p class="d-flex justify-content-between border-bottom py-2">
+            <span class="fw-bold text-secondary">Event ID:</span>
+            <span th:text="${currentEvent.getId()}"></span>
+        </p>
+        <p class="d-flex justify-content-between border-bottom py-2">
+            <span class="fw-bold text-secondary">Name:</span>
+            <span th:text="${currentEvent.getName()}"></span>
+        </p>
+        <p class="d-flex justify-content-between border-bottom py-2">
+            <span class="fw-bold text-secondary">Description:</span>
+            <span th:text="${currentEvent.getDescription()}"></span>
+        </p>
+        <p class="d-flex justify-content-between border-bottom py-2">
+            <span class="fw-bold text-secondary">Category:</span>
+            <span th:text="${currentEvent.getCategory().getTypeCategory()}"></span>
+        </p>
+        <p class="d-flex justify-content-between border-bottom py-2">
+            <span class="fw-bold text-secondary">Location:</span>
+            <span th:text="${currentEvent.getLocation().getName()}"></span>
+        </p>
+        <p class="d-flex justify-content-between py-2">
+            <span class="fw-bold text-secondary">Popularity Score:</span>
+            <span th:text="${currentEvent.getPopularityScore()}"></span>
+        </p>
+    </div>
+
+    <!-- Attendees -->
+    <div class="mt-4">
+        <h2 class="text-success">People Attending:</h2>
+        <div th:each="person : ${peopleAttendingEvent}">
+            <div class="border rounded p-2 bg-success-subtle text-dark mb-2">
+                <strong>Attendee Name:</strong>
+                <th:block th:text="${person}"></th:block>
+            </div>
+        </div>
+    </div>
+
+    <!-- Go Back Button -->
+    <a href="/events" class="btn btn-primary mt-4">Go Back</a>
+</div>
