@@ -1,0 +1,10 @@
+package mk.ukim.finki.wp.kol2024g1.repository;
+
+import mk.ukim.finki.wp.kol2024g1.model.Reservation;
+import org.springframework.data.annotation.ReadOnlyProperty;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ReservationRepository extends JpaSpecificationRepository<Reservation, Long> {
+}
